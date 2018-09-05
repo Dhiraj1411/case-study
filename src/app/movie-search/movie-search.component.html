@@ -1,0 +1,65 @@
+<mat-card style="margin:20px;text-align:center;">
+  <form (submit)="searchMovie()" class="form-class">
+    <mat-form-field class="full-width-class">
+      <input matInput placeholder="Search Movie" aria-label="movie" [matAutocomplete]="auto" [formControl]="movieCtrl">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let movie of filteredMovie | async" [value]="movie.movie_title" (click)="searchMovie(movie.movie_title)">
+          <span>{{movie.movie_title}}</span> |
+          <small>Rating: {{movie.content_rating}}</small>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</mat-card>
+
+<mat-card *ngIf="searchedMovie">
+  <form style="display: flex; justify-content: space-around">
+    <mat-form-field>
+      <mat-select placeholder="Language" [formControl]="langCtrl">
+        <mat-option value="">Select</mat-option>
+        <mat-option *ngFor="let item of languages" [value]="item">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Country" [formControl]="countryCtrl">
+        <mat-option value="">Select</mat-option>
+        <mat-option *ngFor="let item of countries" [value]="item">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Sort" [formControl]="sortCtrl">
+        <mat-option value="">Select</mat-option>
+        <mat-option value="rating">Rating</mat-option>
+        <mat-option value="title_year">Title year</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-card>
+
+
+<div class="main-content">
+  <mat-card class="search-movie-card" *ngFor="let movie of searchedMovie">
+    <mat-card-header></mat-card-header>
+    <mat-card-content>
+      <h4>Name: {{movie.movie_title}}</h4>
+      <h5 *ngIf="movie.director_name">Directed by: {{movie.director_name}}</h5>
+      <h5 *ngIf="movie.actor_1_name || movie.actor_2_name">Actors: {{movie.actor_1_name}}, {{movie.actor_2_name}}</h5>
+      <h5 *ngIf="movie.language">Language: {{movie.language}}</h5>
+      <h5 *ngIf="movie.country">Country: {{movie.country}}</h5>
+      <h5 *ngIf="movie.content_rating">Rating: {{movie.content_rating}}</h5>
+      <h5 *ngIf="movie.budget">Budget: {{movie.budget}}</h5>
+      <h5 *ngIf="movie.title_year">Title year: {{movie.title_year}}</h5>
+      <h5 *ngIf="movie.genres">Geners: {{movie.genres}}</h5>
+      <h5 *ngIf="movie.plot_keywords">Plot keyword: {{movie.plot_keywords}}</h5>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+      <button mat-button>
+        <a [href]="movie.movie_imdb_link">IMDB</a>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

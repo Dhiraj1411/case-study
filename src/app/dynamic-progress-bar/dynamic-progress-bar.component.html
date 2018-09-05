@@ -1,0 +1,31 @@
+<!-- <div class="docs-primary-header component-page-header" style="display: flex; justify-content: space-between;">
+  <h1>Dynamic progress Bar</h1>
+</div> -->
+
+<mat-card class="destination-card">
+  <mat-card-content>
+    <div style="text-align:center" *ngFor="let barVal of this.barData; let i=index">
+      <section class="example-section">
+        <mat-progress-bar class="example-margin" [color]="type[i]" mode="determinate" [value]="barArray[i]">
+        </mat-progress-bar>
+      </section>
+      <span style="top: -10px;position: relative;">{{barArray[i]}}/{{limit}}</span>
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer class="content-footer">
+    <mat-form-field>
+      <mat-select [(value)]="barVal" placeholder="Select Progress Ba">
+        <mat-option *ngFor="let optVal of this.barData; let i=index" [value]="i">
+          progress{{i+1}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button *ngFor="let btn of buttonGrp" [color]="btn > 0 ? 'primary':'warn'" (click)="refreshVal(btn,barVal)">{{btn}}</button>
+    </div>
+
+  </mat-card-footer>
+
+
+</mat-card>
