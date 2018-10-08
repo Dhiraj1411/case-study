@@ -116,7 +116,7 @@ export class MovieSearchComponent {
     this.langCtrl.setValue('');
     this.countryCtrl.setValue('');
     this.sortCtrl.setValue('');
-    if (data) {
+    if (data.length === 0) {
       searchData = data;
     } else {
       searchData = this.movieCtrl.value;

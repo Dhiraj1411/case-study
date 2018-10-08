@@ -1,5 +1,5 @@
 <mat-card style="margin:20px;text-align:center;">
-  <form (submit)="searchMovie()" class="form-class">
+  <form (submit)="searchMovie('')" class="form-class">
     <mat-form-field class="full-width-class">
       <input matInput placeholder="Search Movie" aria-label="movie" [matAutocomplete]="auto" [formControl]="movieCtrl">
       <mat-autocomplete #auto="matAutocomplete">
