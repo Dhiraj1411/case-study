@@ -1,0 +1,19 @@
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 35px;
+}
+
+.content-footer {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  div {
+    display: inline-block;
+    margin-left: 20px;
+    button {
+      margin: 10px;
+    }
+  }
+}

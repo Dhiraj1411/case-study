@@ -1,0 +1,11 @@
+.docs-component-category-list-item {
+  display: inline-block;
+  margin: 20px;
+  vertical-align: top;
+  width: 300px;
+}
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: none;
+}

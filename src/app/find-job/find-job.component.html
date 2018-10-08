@@ -1,0 +1,84 @@
+<!-- <div class="docs-primary-header component-page-header" style="display: flex; justify-content: space-between;">
+  <h1>Find a job</h1>
+</div> -->
+<form [formGroup]="findJobForm" (submit)='submitForm();'>
+  <mat-card class="destination-card">
+    <mat-form-field>
+      <mat-select placeholder="Choose Destination one" formControlName="firstSelectedDesination">
+        <mat-option *ngFor="let item of firstDestinationCities" (click)='selectCity(item.name, "firstSelectedCity")' [value]="item">
+          {{item.name}} ({{item.distance}} km)
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group *ngIf="findJobForm.get('firstSelectedDesination').value" class="example-radio-group" formControlName="firstDestinationVehicle">
+      <mat-radio-button [disabled]="item.isDisabled" class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of availableVehicleForDestinationOne"
+        [value]="item">
+        {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)
+      </mat-radio-button>
+    </mat-radio-group>
+
+  </mat-card>
+
+  <mat-card class="destination-card">
+    <mat-form-field>
+      <mat-select placeholder="Choose Destination one" formControlName="secondSelectedDesination">
+        <mat-option *ngFor="let item of secondDestinationCities" (click)='selectCity(item.name, "secondSelectedCity")' [value]="item">
+          {{item.name}} ({{item.distance}} km)
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group *ngIf="findJobForm.get('secondSelectedDesination').value" class="example-radio-group"
+      formControlName="secondDestinationVehicle">
+      <mat-radio-button [disabled]="item.isDisabled" class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of availableVehicleForDestinationTwo"
+        [value]="item">
+        {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)
+      </mat-radio-button>
+    </mat-radio-group>
+
+  </mat-card>
+
+  <mat-card class="destination-card">
+    <mat-form-field>
+      <mat-select placeholder="Choose Destination one" formControlName="thirdSelectedDesination">
+        <mat-option *ngFor="let item of thirdDestinationCities" (click)='selectCity(item.name, "thirdSelectedCity")' [value]="item">
+          {{item.name}} ({{item.distance}} km)
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group *ngIf="findJobForm.get('thirdSelectedDesination').value" class="example-radio-group" formControlName="thirdDestinationVehicle">
+      <mat-radio-button class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of vehiclesInfo" [value]="item">
+        {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)
+      </mat-radio-button>
+    </mat-radio-group>
+  </mat-card>
+
+  <mat-card class="destination-card">
+    <mat-form-field>
+      <mat-select placeholder="Choose Destination one" formControlName="fourthSelectedDesination">
+        <mat-option *ngFor="let item of fourthDestinationCities" (click)='selectCity(item.name, "fourthSelectedCity")' [value]="item">
+          {{item.name}} ({{item.distance}} km)
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group *ngIf="findJobForm.get('fourthSelectedDesination').value" class="example-radio-group" formControlName="fourthDestinationVehicle">
+      <mat-radio-button class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of vehiclesInfo" [value]="item">
+        {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)
+      </mat-radio-button>
+    </mat-radio-group>
+
+  </mat-card>
+
+  <mat-card style="display:block; text-align: center">
+    <p *ngIf="timeSpentOnTravel">
+      Time spent on travel : {{timeSpentOnTravel}}
+    </p>
+    <div>
+      <button mat-raised-button color='primary'>Find a Job</button>
+    </div>
+  </mat-card>
+
+</form>
