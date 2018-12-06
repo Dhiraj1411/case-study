@@ -1,7 +1,16 @@
 <!-- <div class="docs-primary-header component-page-header" style="display: flex; justify-content: space-between;">
   <h1>Find a job</h1>
 </div> -->
+
+
+
 <form [formGroup]="findJobForm" (submit)='submitForm();'>
+  <div *ngIf="(cities$ | async) as store">
+    <h6 *ngFor="let data of store['cities']">
+      {{data['name']}} : {{data['distance']}}
+    </h6>
+  </div>
+
   <mat-card class="destination-card">
     <mat-form-field>
       <mat-select placeholder="Choose Destination one" formControlName="firstSelectedDesination">
@@ -29,8 +38,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-radio-group *ngIf="findJobForm.get('secondSelectedDesination').value" class="example-radio-group"
-      formControlName="secondDestinationVehicle">
+    <mat-radio-group *ngIf="findJobForm.get('secondSelectedDesination').value" class="example-radio-group" formControlName="secondDestinationVehicle">
       <mat-radio-button [disabled]="item.isDisabled" class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of availableVehicleForDestinationTwo"
         [value]="item">
         {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)

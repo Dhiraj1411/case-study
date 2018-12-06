@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { FindJobService } from './service/find-job.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { Observable } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
+import { GetCities, GetVehicle } from './find-job.action';
+import { City } from './find-job.model';
+
+
 @Component({
   selector: 'app-find-job',
   templateUrl: './find-job.component.html',
@@ -35,10 +43,16 @@ export class FindJobComponent {
   thirdDestinationCities = [];
   fourthDestinationCities = [];
 
+  cities$: Observable<City[]>;
   constructor(
     private service: FindJobService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private store: Store<any>
   ) {
+    this.cities$ = this.store.pipe(select('reducer'));
+
+    this.store.dispatch(new GetCities());
+    this.store.dispatch(new GetVehicle());
 
     this.createForm();
     this.listenFormChange();
@@ -146,7 +160,7 @@ export class FindJobComponent {
   getVehicle = () => {
     this.service.getvehicles().subscribe(
       (success) => {
-        console.log(success);
+        // console.log(success);
         this.vehiclesInfo = Object.create(success);
         this.availableVehicles = Object.create(success);
       },

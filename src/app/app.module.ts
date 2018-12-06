@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
 import { InterceptorService } from './shared/service/interceptor/interceptor.service';
 
 // custom module
@@ -16,6 +17,10 @@ import { FindJobComponent } from './find-job/find-job.component';
 import { DynamicProgressBarComponent } from './dynamic-progress-bar/dynamic-progress-bar.component';
 import { NavigationBarComponent } from './shared/components/navigation-bar/navigation-bar.component';
 
+import { findJobReducer } from './find-job/find-job.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { FindJobEffect } from './find-job/find-job.effects';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +34,8 @@ import { NavigationBarComponent } from './shared/components/navigation-bar/navig
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    StoreModule.forRoot({ reducer: findJobReducer }),
+    EffectsModule.forRoot([FindJobEffect]),
     SharedModuleModule,
     AppRoutingModule
   ],
