@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
-import { GetCities, GetVehicle } from './find-job.action';
+import { GetCities, GetVehicle, SelectFirstVehicle } from './find-job.action';
 import { City } from './find-job.model';
 
 
@@ -43,29 +43,28 @@ export class FindJobComponent {
   thirdDestinationCities = [];
   fourthDestinationCities = [];
 
-  cities$: Observable<City[]>;
+  findJobState$: Observable<City[]>;
   constructor(
     private service: FindJobService,
     private fb: FormBuilder,
     private store: Store<any>
   ) {
-    this.cities$ = this.store.pipe(select('reducer'));
-
+    this.findJobState$ = this.store.pipe(select('reducer'));
     this.store.dispatch(new GetCities());
     this.store.dispatch(new GetVehicle());
 
     this.createForm();
-    this.listenFormChange();
-    this.getCities();
-    this.getVehicle();
+    // this.listenFormChange();
+    // this.getCities();
+    // this.getVehicle();
   }
 
   createForm = () => {
     this.findJobForm = this.fb.group({
       firstSelectedDesination: [''],
-      secondSelectedDesination: [{ value: '', disabled: true }],
-      thirdSelectedDesination: [{ value: '', disabled: true }],
-      fourthSelectedDesination: [{ value: '', disabled: true }],
+      secondSelectedDesination: [''],
+      thirdSelectedDesination: [''],
+      fourthSelectedDesination: [''],
       firstDestinationVehicle: [''],
       secondDestinationVehicle: [''],
       thirdDestinationVehicle: [''],
@@ -140,6 +139,7 @@ export class FindJobComponent {
     this.findJobForm.get('thirdDestinationVehicle').valueChanges.subscribe((data) => {
       this.findJobForm.get('fourthSelectedDesination').enable();
     });
+
   }
 
   getCities = () => {
@@ -170,8 +170,9 @@ export class FindJobComponent {
     );
   }
 
-  selectVehicle = (data) => {
-    this.selectedVehicles.push(data);
+  selectVehicle = (vehicle, destination) => {
+    // this.selectedVehicles.push(data);
+    this.store.dispatch(new SelectFirstVehicle(vehicle, destination));
   }
 
   getFilteredDestination = (mainArray = [], senderName = '') => {
@@ -195,6 +196,10 @@ export class FindJobComponent {
   selectCity = (item, name) => {
     this.selectedCities[name] = item;
     if (name === 'firstSelectedCity') {
+      // this.store.dispatch(new SelectFirstDestination(item));
+
+      console.log(this.findJobState$['actionsObserver'].value.payload);
+
       this.secondDestinationCities = this.getFilteredDestination(this.citiesArray, 'secondSelectedCity');
       this.thirdDestinationCities = this.getFilteredDestination(this.citiesArray, 'thirdSelectedCity');
       this.fourthDestinationCities = this.getFilteredDestination(this.citiesArray, 'fourthSelectedCity');

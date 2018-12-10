@@ -4,24 +4,27 @@
 
 
 
-<form [formGroup]="findJobForm" (submit)='submitForm();'>
-  <div *ngIf="(cities$ | async) as store">
+<form [formGroup]="findJobForm" (submit)='submitForm();' *ngIf="(findJobState$ | async) as store">
+  <!-- <div *ngIf="(cities$ | async) as store">
     <h6 *ngFor="let data of store['cities']">
       {{data['name']}} : {{data['distance']}}
     </h6>
-  </div>
+  </div> -->
 
   <mat-card class="destination-card">
     <mat-form-field>
       <mat-select placeholder="Choose Destination one" formControlName="firstSelectedDesination">
-        <mat-option *ngFor="let item of firstDestinationCities" (click)='selectCity(item.name, "firstSelectedCity")' [value]="item">
+        <mat-option *ngFor="let item of store['cities'] | filterCities : [ findJobForm.get('secondSelectedDesination').value, 
+          findJobForm.get('thirdSelectedDesination').value, findJobForm.get('fourthSelectedDesination').value ]" [value]="item">
           {{item.name}} ({{item.distance}} km)
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-radio-group *ngIf="findJobForm.get('firstSelectedDesination').value" class="example-radio-group" formControlName="firstDestinationVehicle">
-      <mat-radio-button [disabled]="item.isDisabled" class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of availableVehicleForDestinationOne"
+      <mat-radio-button [disabled]="findJobForm.get('firstSelectedDesination').value.distance > item.total_no * item.max_distance ? true : item.isDisabled"
+        class="example-radio-button" 
+        *ngFor="let item of store['vehicles'] | enableDisableVehiclePipe : findJobForm.get('firstDestinationVehicle').value : findJobForm.get('firstSelectedDesination').value : findJobForm"
         [value]="item">
         {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)
       </mat-radio-button>
@@ -31,15 +34,17 @@
 
   <mat-card class="destination-card">
     <mat-form-field>
-      <mat-select placeholder="Choose Destination one" formControlName="secondSelectedDesination">
-        <mat-option *ngFor="let item of secondDestinationCities" (click)='selectCity(item.name, "secondSelectedCity")' [value]="item">
+      <mat-select placeholder="Choose Destination two" formControlName="secondSelectedDesination">
+        <mat-option *ngFor="let item of store['cities']  | filterCities : [ findJobForm.get('firstSelectedDesination').value, 
+        findJobForm.get('thirdSelectedDesination').value, findJobForm.get('fourthSelectedDesination').value ]" [value]="item">
           {{item.name}} ({{item.distance}} km)
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-radio-group *ngIf="findJobForm.get('secondSelectedDesination').value" class="example-radio-group" formControlName="secondDestinationVehicle">
-      <mat-radio-button [disabled]="item.isDisabled" class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of availableVehicleForDestinationTwo"
+      <mat-radio-button [disabled]="findJobForm.get('secondSelectedDesination').value.distance > item.total_no * item.max_distance ? true : item.isDisabled"
+        class="example-radio-button"  *ngFor="let item of store['vehicles'] | enableDisableVehiclePipe :findJobForm.get('secondDestinationVehicle').value : findJobForm.get('secondSelectedDesination').value : findJobForm"
         [value]="item">
         {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)
       </mat-radio-button>
@@ -49,15 +54,17 @@
 
   <mat-card class="destination-card">
     <mat-form-field>
-      <mat-select placeholder="Choose Destination one" formControlName="thirdSelectedDesination">
-        <mat-option *ngFor="let item of thirdDestinationCities" (click)='selectCity(item.name, "thirdSelectedCity")' [value]="item">
+      <mat-select placeholder="Choose Destination third" formControlName="thirdSelectedDesination">
+        <mat-option *ngFor="let item of store['cities'] | filterCities : [ findJobForm.get('secondSelectedDesination').value, 
+        findJobForm.get('firstSelectedDesination').value, findJobForm.get('fourthSelectedDesination').value ]" [value]="item">
           {{item.name}} ({{item.distance}} km)
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-radio-group *ngIf="findJobForm.get('thirdSelectedDesination').value" class="example-radio-group" formControlName="thirdDestinationVehicle">
-      <mat-radio-button class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of vehiclesInfo" [value]="item">
+      <mat-radio-button [disabled]="findJobForm.get('thirdSelectedDesination').value.distance > item.total_no * item.max_distance ? true : item.isDisabled"
+        class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of store['vehicles']" [value]="item">
         {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)
       </mat-radio-button>
     </mat-radio-group>
@@ -65,22 +72,24 @@
 
   <mat-card class="destination-card">
     <mat-form-field>
-      <mat-select placeholder="Choose Destination one" formControlName="fourthSelectedDesination">
-        <mat-option *ngFor="let item of fourthDestinationCities" (click)='selectCity(item.name, "fourthSelectedCity")' [value]="item">
+      <mat-select placeholder="Choose Destination fourth" formControlName="fourthSelectedDesination">
+        <mat-option *ngFor="let item of store['cities'] | filterCities : [ findJobForm.get('secondSelectedDesination').value, 
+        findJobForm.get('firstSelectedDesination').value, findJobForm.get('thirdSelectedDesination').value ]" [value]="item">
           {{item.name}} ({{item.distance}} km)
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-radio-group *ngIf="findJobForm.get('fourthSelectedDesination').value" class="example-radio-group" formControlName="fourthDestinationVehicle">
-      <mat-radio-button class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of vehiclesInfo" [value]="item">
+      <mat-radio-button [disabled]="findJobForm.get('fourthSelectedDesination').value.distance > item.total_no * item.max_distance ? true : item.isDisabled"
+        class="example-radio-button" (click)='selectVehicle(item.name)' *ngFor="let item of store['vehicles']" [value]="item">
         {{item.total_no}} {{item.name}} ({{item.max_distance}}km) ({{item.speed}}km/hr)
       </mat-radio-button>
     </mat-radio-group>
 
   </mat-card>
 
-  <mat-card style="display:block; text-align: center">
+  <mat-card style="display:block; text-align: center; margin-top:50px">
     <p *ngIf="timeSpentOnTravel">
       Time spent on travel : {{timeSpentOnTravel}}
     </p>

@@ -6,6 +6,10 @@ import { Actions } from '@ngrx/effects';
 import { FindJobActions } from './find-job.action';
 import { FindJobService } from './service/find-job.service';
 
+const availableVehicle = {
+
+};
+
 export function findJobReducer(state = {}, action: FindJobActions) {
     switch (action.type) {
         case ActionTypes.getCities: {
@@ -22,6 +26,10 @@ export function findJobReducer(state = {}, action: FindJobActions) {
         case ActionTypes.getVehicleSuccess: {
             // return [...state, action.payload];
             return Object.assign(state, { vehicles: action.payload });
+        }
+        case ActionTypes.selectFirstVehicle: {
+            return Object.assign(state, { alloated: [{ destination: action.destination, vehile: action.vehicle }] });
+            // return {state, { destination: action.destination, vehile: action.vehicle };
         }
         default: {
             return state;

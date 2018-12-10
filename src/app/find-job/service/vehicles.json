@@ -1,0 +1,21 @@
+[{
+  "name": "Car",
+  "total_no": 2,
+  "max_distance": 400,
+  "speed": 50
+}, {
+  "name": "Bus",
+  "total_no": 1,
+  "max_distance": 600,
+  "speed": 100
+}, {
+  "name": "Train",
+  "total_no": 1,
+  "max_distance": 800,
+  "speed": 200
+}, {
+  "name": "Plane",
+  "total_no": 2,
+  "max_distance": 1200,
+  "speed": 400
+}]

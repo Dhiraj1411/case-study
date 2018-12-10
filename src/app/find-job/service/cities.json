@@ -1,0 +1,19 @@
+[{
+  "name": "Mysore",
+  "distance": 200
+}, {
+  "name": "Chennai",
+  "distance": 400
+}, {
+  "name": "Hyderabad",
+  "distance": 600
+}, {
+  "name": "Pune",
+  "distance": 800
+}, {
+  "name": "Mumbai",
+  "distance": 1000
+}, {
+  "name": "Ahmedabad",
+  "distance": 1200
+}]

@@ -21,6 +21,11 @@ import { findJobReducer } from './find-job/find-job.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { FindJobEffect } from './find-job/find-job.effects';
 
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+
+import { FilterCitiesPipe, EnableDisableVehiclePipe } from './find-job/find-job.pipes';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +33,10 @@ import { FindJobEffect } from './find-job/find-job.effects';
     MovieSearchComponent,
     FindJobComponent,
     DynamicProgressBarComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    //pipes
+    FilterCitiesPipe,
+    EnableDisableVehiclePipe
   ],
   imports: [
     BrowserModule,
@@ -36,8 +44,13 @@ import { FindJobEffect } from './find-job/find-job.effects';
     BrowserAnimationsModule,
     StoreModule.forRoot({ reducer: findJobReducer }),
     EffectsModule.forRoot([FindJobEffect]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    }),
     SharedModuleModule,
-    AppRoutingModule
+    AppRoutingModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },

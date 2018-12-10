@@ -9,10 +9,10 @@ export enum ActionTypes {
     getCitiesSuccess = '[FindJob Component] getCities success',
     getVehicleSuccess = '[FindJob Component] getVehicle success',
 
-    selectFirstDestination = '[FindJob Component] First Destination',
-    selectSecondDestination = '[FindJob Component] Second Destination',
-    selectThirdDestination = '[FindJob Component] Third Destination',
-    selectFourthDestination = '[FindJob Component] Fourth Destination',
+    selectFirstVehicle = '[FindJob Component] First Destination',
+    selectSecondVehicle = '[FindJob Component] Second Destination',
+    selectThirdVehicle = '[FindJob Component] Third Destination',
+    SelectFourthVehicle = '[FindJob Component] Fourth Destination',
 
     chooseVehicle = '[FindJob Component] Choose Vehicle',
 
@@ -36,8 +36,9 @@ export class GetVehicleSuccess implements Action {
     constructor(public payload: Vehicle) { }
 }
 
-export class SelectFirstDestination implements Action {
+/*export class SelectFirstDestination implements Action {
     readonly type = ActionTypes.selectFirstDestination;
+    constructor(public payload: String) { }
 }
 
 export class SelectSecondDestination implements Action {
@@ -50,22 +51,34 @@ export class SelectThirdDestination implements Action {
 
 export class SelectFourthDestination implements Action {
     readonly type = ActionTypes.selectFourthDestination;
-}
-/*
+}*/
+
 export class SelectFirstVehicle implements Action {
     readonly type = ActionTypes.selectFirstVehicle;
+    constructor(public vehicle: any, public destination: any) { }
 }
 
 export class SelectSecondVehicle implements Action {
     readonly type = ActionTypes.selectSecondVehicle;
+    constructor(public payload: any) { }
 }
 
 export class SelectThirdVehicle implements Action {
     readonly type = ActionTypes.selectThirdVehicle;
+    constructor(public payload: any) { }
 }
 
 export class SelectFourthVehicle implements Action {
-    readonly type = ActionTypes.selectFourthVehicle;
-}*/
+    readonly type = ActionTypes.SelectFourthVehicle;
+    constructor(public payload: any) { }
+}
 
-export type FindJobActions = | GetCities | GetCitiesSuccess | GetVehicle | GetVehicleSuccess;
+export type FindJobActions =
+    | GetCities
+    | GetCitiesSuccess
+    | GetVehicle
+    | GetVehicleSuccess
+    | SelectFirstVehicle
+    | SelectSecondVehicle
+    | SelectThirdVehicle
+    | SelectFourthVehicle;
